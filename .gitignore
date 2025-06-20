@@ -1,24 +1,181 @@
-# Compiled class file
-*.class
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Online Clothes Store</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-# Log file
-*.log
+    header {
+      background-color: #333;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-# BlueJ files
-*.ctxt
+    header h1 {
+      margin: 0;
+    }
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+    .cart {
+      cursor: pointer;
+    }
 
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
+    .container {
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      flex: 1;
+    }
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+    .product {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .product img {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    .product h3 {
+      margin: 10px 0;
+    }
+
+    .product button {
+      padding: 8px 12px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .cart-items {
+      padding: 20px;
+      background-color: #fff;
+      border-top: 1px solid #ddd;
+    }
+
+    .cart-item {
+      margin-bottom: 10px;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      font-size: 14px;
+    }
+
+    @media(max-width: 600px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Clothing Store</h1>
+    <div class="cart">🛒 Cart (<span id="cart-count">0</span>)</div>
+  </header>
+
+  <div class="container" id="product-list">
+    <!-- Products will be loaded here -->
+  </div>
+
+  <div class="cart-items" id="cart-items">
+    <h2>Your Cart</h2>
+    <div id="cart-content"></div>
+  </div>
+
+  <!-- Footer with phone number -->
+  <footer>
+    Contact Us: +91 7601017851
+  </footer>
+
+  <script>
+    const products = [
+      {
+        id: 1,
+        name: "Men's T-Shirt",
+        price: 499,
+        image: "https://via.placeholder.com/200x200?text=T-Shirt"
+      },
+      {
+        id: 2,
+        name: "Women's Dress",
+        price: 899,
+        image: "https://via.placeholder.com/200x200?text=Dress"
+      },
+      {
+        id: 3,
+        name: "Jeans",
+        price: 799,
+        image: "https://via.placeholder.com/200x200?text=Jeans"
+      },
+      {
+        id: 4,
+        name: "Jacket",
+        price: 1299,
+        image: "https://via.placeholder.com/200x200?text=Jacket"
+      }
+    ];
+
+    let cart = [];
+
+    function renderProducts() {
+      const list = document.getElementById('product-list');
+      list.innerHTML = '';
+      products.forEach(product => {
+        list.innerHTML += `
+          <div class="product">
+            <img src="${product.image}" alt="${product.name}" />
+            <h3>${product.name}</h3>
+            <p>₹${product.price}</p>
+            <button onclick="addToCart(${product.id})">Add to Cart</button>
+          </div>
+        `;
+      });
+    }
+
+    function addToCart(productId) {
+      const product = products.find(p => p.id === productId);
+      cart.push(product);
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      document.getElementById('cart-count').textContent = cart.length;
+      const content = document.getElementById('cart-content');
+      content.innerHTML = '';
+      cart.forEach((item, index) => {
+        content.innerHTML += `<div class="cart-item">#${index + 1} - ${item.name} (₹${item.price})</div>`;
+      });
+    }
+
+    renderProducts();
+  </script>
+
+</body>
+</html>
